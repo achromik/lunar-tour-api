@@ -30,10 +30,10 @@ provider:
   # the following line. Also, make sure to not
   # commit your env.yml.
   #
-  environment:
-    name_of_var: ${env:NAME_OF_VAR}
-    tableDB: ${self:custom.tableDB}
-    account: ${env:ACCOUNT}
+  # environment:
+  #   name_of_var: ${env:NAME_OF_VAR}
+  #   tableDB: ${self:custom.tableDB}
+  #   account: ${env:ACCOUNT}
 
   iamRoleStatements:
     - Effect: Allow
