@@ -14,6 +14,14 @@ custom:
     port: 4000
   bundle:
     linting: false
+  stage: ${opt:stage, self:provider.stage}
+  region: ${opt:region, self:provider.region}
+  ListingsDB: ${self:custom.stage}-listings
+  BookingsDB: ${self:custom.stage}-bookings
+  tableThroughputs:
+    prod: 1
+    default: 1
+  tableThroughput: ${self:custom.tableThroughputs.${self:custom.stage}, self:custom.tableThroughputs.default}
 
 provider:
   name: aws
@@ -30,10 +38,10 @@ provider:
   # the following line. Also, make sure to not
   # commit your env.yml.
   #
-  # environment:
-  #   name_of_var: ${env:NAME_OF_VAR}
-  #   tableDB: ${self:custom.tableDB}
-  #   account: ${env:ACCOUNT}
+  environment:
+    # name_of_var: ${env:NAME_OF_VAR}
+    tableDB: ${self:custom.tableDB}
+    account: ${env:ACCOUNT}
 
   iamRoleStatements:
     - Effect: Allow
@@ -79,8 +87,10 @@ resources:
   - ${file(resources/sqs-queue.yml)}
   - ${file(resources/table.yml)}
   - ${file(resources/s3-bucket.yml)}
-  # - ${file(resources/cognito-identity-pool.yml)}
-  # - ${file(resources/cognito-user-pool.yml)}
+  - ${file(resources/cognito-identity-pool.yml)}
+  - ${file(resources/cognito-user-pool.yml)}
+  - ${file(resources/listing-db.yml)}
+  - ${file(resources/bookingDB.yml)}
   # events:
   #     - sqs:
   #         arn: "arn:aws:sqs:${self:provider.environment.region}:${self:provider.environment.account}:${self:provider.environment.quque_name}-${self:provider.stage}"
