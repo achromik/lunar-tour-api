@@ -1,7 +1,16 @@
-import {hello} from "./query";
+import { hello, getAllListings } from './query';
 
 export const resolvers = {
-    Query: {
-        hello: (root, args, context) => hello(args, context)
-    }
-}
+  Query: {
+    hello: (root, args, context) => hello(args, context),
+    getAllListings: (root, args, context) => getAllListings(args, context),
+  },
+  ListingsOrError: {
+    __resolveType(obj) {
+      if (obj.error) {
+        return 'Error';
+      }
+      return 'Listings';
+    },
+  },
+};

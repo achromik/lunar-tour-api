@@ -27,11 +27,11 @@ provider:
   name: aws
   runtime: nodejs12.x
   stage: dev
-  region: us-east-1
+  region: eu-east-1
   environment:
     BookingsDB: ${self:custom.BookingsDB}
     ListingsDB: ${self:custom.ListingsDB}
-    stripeSecretKey: ${env:STRIPE_SECRET_KEY}
+    # stripeSecretKey: ${env:STRIPE_SECRET_KEY}
 
   iamRoleStatements:
     - Effect: Allow
@@ -57,6 +57,8 @@ functions:
     handler: src/graphql.graphqlHandler
     environment:
       SLS_DEBUG: true
+      AWS_REGION: ${self:custom.region}
+      LISTINGS_DB: ${self:custom.ListingsDB}
     events:
       - http:
           path: graphql
